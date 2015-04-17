@@ -1,0 +1,12 @@
+﻿.datepicker {
+    z-index: 1151 !important;
+}
+
+.jumbotron {
+  text-align: center;
+}
+
+.jumbotron .btn {
+  font-size: 20px;
+  padding: 14px 24px;
+}
