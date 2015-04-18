@@ -1,5 +1,9 @@
 ﻿'use strict';
-
+/*
+    newEvent() is called within angular-bootstrap-calendar-tpls.js on line 12,
+    by the custom button at column 494.
+*/
+var newEvent = function (date) { }; // instantiated to insure no null function calls
 angular
   .module('calendarApp', ['mwl.calendar', 'ui.bootstrap', 'ngRoute'])
   .config(function ($routeProvider) {
@@ -126,12 +130,12 @@ angular
           showModal('Deleted', event);
       };
 
-      var eventNew = $scope.eventNew = function () {
+      var eventNew = newEvent = $scope.eventNew = function (date) {
           var event = {
               title: 'New Event',
               type: 'info',
-              starts_at: $scope.calendarDay,
-              ends_at: $scope.calendarDay,
+              starts_at: (date === undefined ? $scope.calendarDay : date),
+              ends_at: (date === undefined ? $scope.calendarDay : date),
               editable: true,
               deletable: true,
               incrementsBadgeTotal: true,
