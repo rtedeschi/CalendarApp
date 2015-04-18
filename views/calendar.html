@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="btn-group-vertical visible-sm visible-xs">
                                     <div class="btn-group">
-                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{{temp(calendarView)}} <span class="caret"></span></button>
+                                        <button class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{{temp(calendarView)}} <span class="caret"></span></button>
                                         <ul class="dropdown-menu" role="menu">
                                             <li ng-model="calendarView" btn-radio="'year'"><a>Year</a></li>
                                             <li ng-model="calendarView" btn-radio="'month'"><a>Month</a></li>
@@ -38,18 +38,27 @@
                     </div>
                     <div class="col-xs-8 col-sm-7">
                         <div class="row">
-                            <label class="btn btn-default col-xs-12" ng-click="setCalendarToToday()">Today</label>
+                            <div class="col-xs-6">
+                                <label class="btn cbtn btn-primary center-block" ng-click="eventNew()"><span class="glyphicon glyphicon-plus"></span></label>
+                            </div>
+                            <label class="btn btn-default col-xs-6 pull-right" ng-click="setCalendarToToday()">Today</label>
+                        </div>
+                        <div class="row">
                             <div class="col-xs-12">
                                 <div class="row">
-                                    <label class="btn btn-default col-xs-2 hidden-xs" ng-click="calendarControl.prev()"><span class="glyphicon glyphicon-chevron-left"></span></label>
-                                    <h2 class="text-center col-xs-12 col-sm-8">{{ calendarControl.getTitle() }}</h2>
-                                    <label class="btn btn-default col-xs-2 hidden-xs" ng-click="calendarControl.next()"><span class="glyphicon glyphicon-chevron-right"></span></label>
+                                    <div class="col-xs-2 hidden-xs">
+                                        <div class="btn cbtn-lg btn-info pull-left" ng-click="calendarControl.prev()"><span class="glyphicon glyphicon-chevron-left"></span></div>
+                                    </div>
+                                    <h2 class="center-block text-center col-xs-12 col-sm-8">{{ calendarControl.getTitle() }}</h2>
+                                    <div class="col-xs-2 hidden-xs">
+                                        <div class="btn cbtn-lg btn-info pull-right" ng-click="calendarControl.next()"><span class="glyphicon glyphicon-chevron-right"></span></div>
+                                    </div>
                                 </div>
                             </div>
-                            <label class="btn btn-primary col-xs-12" ng-click="eventNew()">Add Event</label>
-                            <div class="row visible-xs">
-                                <label class="btn btn-default col-xs-6" ng-click="calendarControl.prev()"><span class="glyphicon glyphicon-chevron-left"></span></label>
-                                <label class="btn btn-default col-xs-6" ng-click="calendarControl.next()"><span class="glyphicon glyphicon-chevron-right"></span></label>
+                            <div class="visible-xs clearfix">
+                                <label class="btn cbtn btn-info pull-left" ng-click="calendarControl.prev()"><span class="glyphicon glyphicon-chevron-left"></span></label>
+                                <label class="btn cbtn btn-primary center-block" ng-click="eventNew()"><span class="glyphicon glyphicon-plus"></span></label>
+                                <label class="btn cbtn btn-info pull-right" ng-click="calendarControl.next()"><span class="glyphicon glyphicon-chevron-right"></span></label>
                             </div>
                         </div>
                     </div>
@@ -75,7 +84,7 @@
 
                 <script type="text/ng-template" id="viewEvent.html">
                     <div class="modal-header">
-                        <h3 class="modal-title">{{event.title}}</h3>
+                        <h3 class="modal-title text-center">{{event.title}}</h3>
                     </div>
                     <div class="modal-body">
                         <p>Event: <pre>{{ event | json }}</pre></p>
@@ -95,7 +104,7 @@
                 <script type="text/ng-template" id="editEvent.html">
                     <div class="modal-header">
                         <div class="input-group input-group-lg" style="width: 100%;">
-                            <input type="text" class="modal-title form-control" placeholder="Event Title" value="{{event.title}}" ng-model="event.title" />
+                            <input type="text" class="modal-title form-control text-center" placeholder="Event Title" value="{{event.title}}" ng-model="event.title" />
                         </div>
                     </div>
                     <div class="modal-body">
@@ -138,7 +147,7 @@
 
                 <script type="text/ng-template" id="killEvent.html">
                     <div class="modal-header">
-                        <h3 class="modal-title"><i class="glyphicon glyphicon-exclamation-sign col" style="color: red"></i> Delete Event '{{event.title}}'?</h3>
+                        <h3 class="modal-title text-center"><i class="glyphicon glyphicon-exclamation-sign col" style="color: red"></i> Delete Event '{{event.title}}'?</h3>
                     </div>
                     <div class="modal-body">
                         <h4>Are you sure you want to delete this event? It cannot be undone!</h4>

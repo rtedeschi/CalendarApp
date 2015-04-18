@@ -10,3 +10,47 @@
   font-size: 20px;
   padding: 14px 24px;
 }
+
+/* 
+    Custom circular buttons
+*/
+.cbtn {
+  vertical-align: middle;
+  width: 49px;
+  height: 49px;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 20px;
+  line-height: 2.00;
+  border-radius: 30px;
+}
+.cbtn-lg {
+  vertical-align: middle;
+  width: 79px;
+  height: 79px;
+  text-align: center;
+  padding: 13px 0;
+  font-size: 30px;
+  line-height: 2.00;
+  border-radius: 70px;
+}
+.cbtn-sm {
+  vertical-align: middle;
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  padding: 2px 0;
+  font-size: 20px;
+  line-height: 1.65;
+  border-radius: 30px;
+}
+.cbtn-xs {
+  vertical-align: middle;
+  width: 19px;
+  height: 19px;
+  text-align: center;
+  padding: 1px 0;
+  font-size: 13px;
+  line-height: .1;
+  border-radius: 30px;
+}
