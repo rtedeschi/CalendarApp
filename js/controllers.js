@@ -1,28 +1,67 @@
 ﻿'use strict';
 
 angular
-  .module('calendarApp', ['mwl.calendar', 'ui.bootstrap'])
+  .module('calendarApp', ['mwl.calendar', 'ui.bootstrap', 'ngRoute'])
+  .config(function ($routeProvider) {
+      $routeProvider.when('/home',
+      {
+          controller: 'menuController',
+          templateUrl: '/views/home.html'
+      })
+      .when('/calendar',
+      {
+          controller: 'calendarController',
+          templateUrl: '/views/calendar.html'
+      })
+      .otherwise({ redirectTo: '/home' })
+  })
   .controller('calendarController', function ($scope, $modal, moment) {
 
       var currentYear = moment().year();
       var currentMonth = moment().month();
 
-      //These variables MUST be set as a minimum for the calendar to work
       $scope.calendarView = 'month';
       $scope.calendarDay = new Date();
-      var events = $scope.events = [
-        {
-              title: 'Event 1',
-              type: 'warning',
-              starts_at: new Date(currentYear, currentMonth, 25, 8, 30),
-              ends_at: new Date(currentYear, currentMonth, 25, 9, 30),
-              editable: true,
-              deletable: true,
-              incrementsBadgeTotal: true,
-              eventNum: 0
-        }
-      ];
+      var events = $scope.events = [];
 
+      parseEvents();
+
+      function parseEvents() {
+          var store = localStorage.calendarString;
+          if (store !== undefined) {
+              var badData = false;
+              var data = store.split('|');
+              var numEvents = data.length;
+              var event;
+              for (var i = 0; i < numEvents; i++) {
+                  try {
+                      event = JSON.parse(data[i]);
+                      event.starts_at = new Date(event.starts_at);
+                      event.ends_at = new Date(event.ends_at);
+                      event.eventNum = events.length;
+                      events.push(event);
+                  }
+                  catch (exception) {
+                      badData = true;
+                  }
+              }
+              if (badData)
+                  serializeEvents(); // stores a list of good events if any bad data was caught
+          }
+      };
+
+      function serializeEvents() {
+          var numEvents = events.length;
+          var str = "";
+          var temp;
+          for (var i = 0; i < numEvents; i++) {
+              temp = JSON.stringify(events[i]);
+              temp = temp.substring(temp.indexOf('{'), temp.lastIndexOf('}') + 1);
+              str += temp + (i < numEvents - 1 ? '|' : '');
+          }
+          localStorage.calendarString = str;
+      };
+      
       function showModal(action, event) {
           if (action === 'Clicked') {
               $modal.open({
@@ -52,6 +91,7 @@ angular
                               events.push(event);
                           else
                               events[event.eventNum] = event;
+                          serializeEvents();
                       };
                   }
               });
@@ -67,6 +107,7 @@ angular
                           events.splice(event.eventNum, 1);
                           for (var i = event.eventNum; i < events.length; i++)
                               events[i].eventNum--;
+                          serializeEvents();
                       };
                   }
               });
@@ -89,14 +130,25 @@ angular
           var event = {
               title: 'New Event',
               type: 'info',
-              starts_at: new Date(),
-              ends_at: new Date(),
+              starts_at: $scope.calendarDay,
+              ends_at: $scope.calendarDay,
               editable: true,
               deletable: true,
               incrementsBadgeTotal: true,
               eventNum: events.length
           };
           showModal('New', event);
+      };
+
+      $scope.temp = function (str, start, end) {
+          if (start === undefined || start > str.length || start < 0)
+              start = 0;
+          if (end === undefined)
+              end = start;
+          else if (end === -1 || end > str.length)
+              end = str.length;
+          var temp = str.substring(0, start) + str.substring(start, end + 1).toUpperCase() + str.substr(end + 1);
+          return temp;
       };
 
       $scope.setCalendarToToday = function () {
@@ -124,4 +176,12 @@ angular
           return newEvent;
       };
 
+  })
+  .controller('menuController', function ($scope, $modal, moment) {
+
+  })
+  .controller('mainController', function ($scope, $location) {
+      $scope.routeTo = function (path) {
+          $location.path(path);
+      };
   });
