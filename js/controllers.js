@@ -10,12 +10,12 @@ angular
       $routeProvider.when('/home',
       {
           controller: 'menuController',
-          templateUrl: '/views/home.html'
+          templateUrl: 'views/home.html'
       })
       .when('/calendar',
       {
           controller: 'calendarController',
-          templateUrl: '/views/calendar.html'
+          templateUrl: 'views/calendar.html'
       })
       .otherwise({ redirectTo: '/home' })
   })

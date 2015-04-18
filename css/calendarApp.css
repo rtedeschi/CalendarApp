@@ -49,8 +49,24 @@
   width: 19px;
   height: 19px;
   text-align: center;
-  padding: 1px 0;
-  font-size: 12px;
+  padding: 2px 2px;
+  font-size: 10px;
   line-height: .1;
   border-radius: 30px;
+}
+/*
+    calendar add event button text color
+*/
+.cbtn-cal {
+    color: #ffd800;
+}
+
+/* 
+    Place inside of a div of desired size
+    Use bootstrap btn-* for colors
+*/
+.oval {
+	width: 100%;
+	height: 100%;
+	border-radius: 100px / 50px;
 }

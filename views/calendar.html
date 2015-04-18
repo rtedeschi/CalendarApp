@@ -38,10 +38,14 @@
                     </div>
                     <div class="col-xs-8 col-sm-7">
                         <div class="row">
-                            <div class="col-xs-6">
+                            <!-- Not necessary due to new event buttons added to calendar source -->
+                            <!--<div class="col-xs-6">
                                 <label class="btn cbtn btn-primary center-block" ng-click="eventNew()"><span class="glyphicon glyphicon-plus"></span></label>
+                            </div>-->
+                            <div class="col-xs-2 col-sm-3 col-md-4"></div>
+                            <div class="col-xs-7 col-sm-6 col-md-4">
+                                <label class="btn oval btn-warning" ng-click="setCalendarToToday()">Today</label>
                             </div>
-                            <label class="btn btn-default col-xs-6 pull-right" ng-click="setCalendarToToday()">Today</label>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
@@ -49,30 +53,37 @@
                                     <div class="col-xs-2 hidden-xs">
                                         <div class="btn cbtn-lg btn-info pull-left" ng-click="calendarControl.prev()"><span class="glyphicon glyphicon-chevron-left"></span></div>
                                     </div>
-                                    <h2 class="center-block text-center col-xs-12 col-sm-8">{{ calendarControl.getTitle() }}</h2>
+                                    <h2 class="center-block text-center col-xs-11 col-sm-8">{{ calendarControl.getTitle() }}</h2>
                                     <div class="col-xs-2 hidden-xs">
                                         <div class="btn cbtn-lg btn-info pull-right" ng-click="calendarControl.next()"><span class="glyphicon glyphicon-chevron-right"></span></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="visible-xs clearfix">
-                                <label class="btn cbtn btn-info pull-left" ng-click="calendarControl.prev()"><span class="glyphicon glyphicon-chevron-left"></span></label>
-                                <label class="btn cbtn btn-primary center-block" ng-click="eventNew()"><span class="glyphicon glyphicon-plus"></span></label>
-                                <label class="btn cbtn btn-info pull-right" ng-click="calendarControl.next()"><span class="glyphicon glyphicon-chevron-right"></span></label>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <label class="btn cbtn btn-info pull-left" ng-click="calendarControl.prev()"><span class="glyphicon glyphicon-chevron-left"></span></label>
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <label class="center-block btn cbtn btn-primary" ng-click="eventNew()"><span class="glyphicon glyphicon-plus"></span></label>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <label class="btn cbtn btn-info pull-right" ng-click="calendarControl.next()"><span class="glyphicon glyphicon-chevron-right"></span></label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <br>
-
-                <mwl-calendar calendar-events="events"
-                              calendar-view="calendarView"
-                              calendar-current-day="calendarDay"
-                              calendar-control="calendarControl"
-                              calendar-timespan-click="alert('hello')"
-                              calendar-event-click="eventClicked(calendarEvent)"
-                              calendar-delete-event-html="'<i class=\'glyphicon glyphicon-remove\'></i>'"
+                <br />
+                <div style="border: 5px double #5cb85c">
+                    <mwl-calendar calendar-events="events"
+                                  calendar-view="calendarView"
+                                  calendar-current-day="calendarDay"
+                                  calendar-control="calendarControl"
+                                  calendar-timespan-click="alert('hello')"
+                                  calendar-event-click="eventClicked(calendarEvent)"
+                                  calendar-delete-event-html="'<i class=\'glyphicon glyphicon-remove\'></i>'"
                               calendar-edit-event-click="eventEdited(calendarEvent)"
                               calendar-delete-event-click="eventDeleted(calendarEvent)"
                               calendar-auto-open="false"
@@ -82,6 +93,8 @@
                               calendar-day-view-split="30"
                               calendar-edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'">
                 </mwl-calendar>
+                </div>
+                <br /><br /><br />
 
                 <script type="text/ng-template" id="viewEvent.html">
                     <div class="modal-header">
@@ -109,8 +122,6 @@
                         </div>
                     </div>
                     <div class="modal-body">
-                        <p>Event: <pre>{{event.title}} = {{ event | json }}</pre></p>
-
                         <p class="input-group" style="max-width: 250px">
                             <input type="text" class="form-control" readonly datepicker-popup="medium" ng-model="event.starts_at" is-open="event.startOpen" close-text="Close" />
                             <span class="input-group-btn">
