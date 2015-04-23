@@ -1,9 +1,12 @@
 ﻿'use strict';
 /*
-    newEvent() is called within angular-bootstrap-calendar-tpls.js on line 12,
-    by the custom button at column 494.
+    newEvent() is called within angular-bootstrap-calendar-tpls.js
 */
 var newEvent = function (date) { }; // instantiated to insure no null function calls
+/*
+    dayEvents() is called within angular-bootstrap-calendar-tpls.js
+*/
+var dayEvents = function (events, date) { };
 angular
   .module('calendarApp', ['mwl.calendar', 'ui.bootstrap', 'ngRoute'])
   .config(function ($routeProvider) {
@@ -43,10 +46,11 @@ angular
                       event.starts_at = new Date(event.starts_at);
                       event.ends_at = new Date(event.ends_at);
                       event.eventNum = events.length;
+                      cleanEvent(event);
                       events.push(event);
                   }
                   catch (exception) {
-                      badData = true;
+                      badData = true; // if there is a parsing error, ignore the corrupted event
                   }
               }
               if (badData)
@@ -60,12 +64,33 @@ angular
           var temp;
           for (var i = 0; i < numEvents; i++) {
               temp = JSON.stringify(events[i]);
-              temp = temp.substring(temp.indexOf('{'), temp.lastIndexOf('}') + 1);
               str += temp + (i < numEvents - 1 ? '|' : '');
           }
           localStorage.calendarString = str;
       };
-      
+
+      dayEvents = $scope.enumerateEvents = function (events, date) {
+          $modal.open({
+              templateUrl: 'enumEvents.html',
+              controller: function ($scope, $modalInstance) {
+                  $scope.$modalInstance = $modalInstance;
+                  $scope.events = events;
+                  $scope.date = date;
+                  $scope.eventEdited = eventEdited;
+                  $scope.eventDeleted = eventDeleted;
+                  $scope.eventClicked = eventClicked;
+                  $scope.datesEqual = function (date1, date2) {
+                      return (date1.getYear() === date2.getYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate());
+                  };
+                  $scope.time = function (date) {
+                      var ampm = date.getHours() >= 12 ? "pm" : "am";
+                      var hour = date.getHours() - (date.getHours() >= 12 ? 12 : 0);
+                      return hour + ":" + date.getMinutes() + " " + ampm;
+                  };
+              }
+          });
+      };
+
       function showModal(action, event) {
           if (action === 'Clicked') {
               $modal.open({
@@ -96,6 +121,19 @@ angular
                           else
                               events[event.eventNum] = event;
                           serializeEvents();
+                      };
+
+                      $scope.update = function () {
+                          if (event.allDay) {
+                              var start = new Date(event.starts_at);
+                              start.setHours(12);
+                              start.setMinutes(0);
+                              event.starts_at = start;
+                              var end = new Date(event.starts_at);
+                              end.setHours(12);
+                              end.setMinutes(0);
+                              event.ends_at = end;
+                          }
                       };
                   }
               });
@@ -130,7 +168,7 @@ angular
           showModal('Deleted', event);
       };
 
-      var eventNew = newEvent = $scope.eventNew = function (date) {
+      newEvent = $scope.eventNew = function (date) {
           var event = {
               title: 'New Event',
               type: 'info',
@@ -139,12 +177,26 @@ angular
               editable: true,
               deletable: true,
               incrementsBadgeTotal: true,
-              eventNum: events.length
+              eventNum: events.length,
+              allDay: false
           };
           showModal('New', event);
       };
 
-      $scope.temp = function (str, start, end) {
+      function cleanEvent(event, index) {
+          // ensures all event properties are set
+          if (!event.title) event.title = 'Event ' + (index + 1);
+          if (!event.type) event.type = 'info';
+          if (!event.starts_at) event.starts_at = new Date();
+          if (!event.ends_at) event.ends_at = new Date();
+          if (!event.editable) event.editable = true;
+          if (!event.deletable) event.deletable = true;
+          if (!event.incrementsBadgeTotal) event.incrementsBadgeTotal = true;
+          if (!event.eventNum) event.eventNum = index;
+          if (!event.allDay) event.allDay = false;
+      };
+
+      $scope.toUpper = function (str, start, end) {
           if (start === undefined || start > str.length || start < 0)
               start = 0;
           if (end === undefined)
@@ -175,7 +227,8 @@ angular
               editable: event.editable,
               deletable: event.deletable,
               incrementsBadgeTotal: event.incrementsBadgeTotal,
-              eventNum: event.eventNum
+              eventNum: event.eventNum,
+              allDay: event.allDay
           };
           return newEvent;
       };
@@ -188,4 +241,15 @@ angular
       $scope.routeTo = function (path) {
           $location.path(path);
       };
+  })
+  .controller('datepicker', function ($scope) {
+
+      $scope.open = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+
+          $scope.opened = true;
+      };
+
+      $scope.format = 'fullDate';
   });

@@ -1,58 +1,62 @@
-﻿.datepicker {
-    z-index: 1151 !important;
-}
-
-.jumbotron {
-  text-align: center;
+﻿.jumbotron {
+    text-align: center;
 }
 
 .jumbotron .btn {
-  font-size: 20px;
-  padding: 14px 24px;
+    font-size: 20px;
+    padding: 14px 24px;
+}
+
+.calContainer {
+    border: 5px double #5cb85c;
+}
+
+.align-right {
+    text-align: right;
 }
 
 /* 
     Custom circular buttons
 */
 .cbtn {
-  vertical-align: middle;
-  width: 49px;
-  height: 49px;
-  text-align: center;
-  padding: 5px 0;
-  font-size: 20px;
-  line-height: 2.00;
-  border-radius: 30px;
+    vertical-align: middle;
+    width: 49px;
+    height: 49px;
+    text-align: center;
+    padding: 5px 0;
+    font-size: 20px;
+    line-height: 2.00;
+    border-radius: 30px;
 }
 .cbtn-lg {
-  vertical-align: middle;
-  width: 79px;
-  height: 79px;
-  text-align: center;
-  padding: 13px 0;
-  font-size: 30px;
-  line-height: 2.00;
-  border-radius: 70px;
+    vertical-align: middle;
+    width: 79px;
+    height: 79px;
+    text-align: center;
+    padding: 13px 0;
+    font-size: 30px;
+    line-height: 2.00;
+    border-radius: 70px;
 }
 .cbtn-sm {
-  vertical-align: middle;
-  width: 35px;
-  height: 35px;
-  text-align: center;
-  padding: 2px 0;
-  font-size: 20px;
-  line-height: 1.65;
-  border-radius: 30px;
+    vertical-align: middle;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    padding: 2px 0;
+    font-size: 20px;
+    line-height: 1.65;
+    border-radius: 30px;
 }
 .cbtn-xs {
-  vertical-align: middle;
-  width: 19px;
-  height: 19px;
-  text-align: center;
-  padding: 2px 2px;
-  font-size: 10px;
-  line-height: .1;
-  border-radius: 30px;
+    vertical-align: middle;
+    width: 19px;
+    height: 19px;
+    text-align: center;
+    padding: 2px 2px;
+    font-size: 10px;
+    line-height: .1;
+    border-radius: 30px;
 }
 /*
     calendar add event button text color
@@ -69,4 +73,106 @@
 	width: 100%;
 	height: 100%;
 	border-radius: 100px / 50px;
+}
+
+/*
+    Fancy checkboxes
+*/
+.checkbox {
+  padding-left: 20px;
+}
+.checkbox label {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  padding-left: 5px;
+}
+.checkbox label::before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  left: 0;
+  margin-left: -20px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  background-color: #fff;
+  -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+  -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+  transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+.checkbox label::after {
+  display: inline-block;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 0;
+  top: 0;
+  margin-left: -20px;
+  padding-left: 4px;
+  padding-top: 2px;
+  font-size: 9px;
+  color: #555555;
+}
+.checkbox input[type="checkbox"] {
+  opacity: 0;
+  z-index: 1;
+}
+.checkbox input[type="checkbox"]:focus + label::before {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.checkbox input[type="checkbox"]:checked + label::after {
+  font-family: 'Glyphicons Halflings';
+  content: "\E013";
+}
+.checkbox input[type="checkbox"]:disabled + label {
+  opacity: 0.65;
+}
+.checkbox input[type="checkbox"]:disabled + label::before {
+  background-color: #eeeeee;
+  cursor: not-allowed;
+}
+.checkbox.checkbox-circle label::before {
+  border-radius: 50%;
+}
+.checkbox.checkbox-inline {
+  margin-top: 0;
+}
+.checkbox-primary input[type="checkbox"]:checked + label::before {
+  background-color: #337ab7;
+  border-color: #337ab7;
+}
+.checkbox-primary input[type="checkbox"]:checked + label::after {
+  color: #fff;
+}
+.checkbox-danger input[type="checkbox"]:checked + label::before {
+  background-color: #d9534f;
+  border-color: #d9534f;
+}
+.checkbox-danger input[type="checkbox"]:checked + label::after {
+  color: #fff;
+}
+.checkbox-info input[type="checkbox"]:checked + label::before {
+  background-color: #5bc0de;
+  border-color: #5bc0de;
+}
+.checkbox-info input[type="checkbox"]:checked + label::after {
+  color: #fff;
+}
+.checkbox-warning input[type="checkbox"]:checked + label::before {
+  background-color: #f0ad4e;
+  border-color: #f0ad4e;
+}
+.checkbox-warning input[type="checkbox"]:checked + label::after {
+  color: #fff;
+}
+.checkbox-success input[type="checkbox"]:checked + label::before {
+  background-color: #5cb85c;
+  border-color: #5cb85c;
+}
+.checkbox-success input[type="checkbox"]:checked + label::after {
+  color: #fff;
 }

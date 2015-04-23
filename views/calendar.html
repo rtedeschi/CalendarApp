@@ -8,7 +8,6 @@
 
         <div class="row" id="calendarApp">
             <div class="col-sm-10 col-sm-offset-1">
-
                 <div class="row">
                     <div class="col-xs-4 col-sm-5">
                         <div class="panel panel-success">
@@ -24,7 +23,7 @@
                                 </div>
                                 <div class="btn-group-vertical visible-sm visible-xs">
                                     <div class="btn-group">
-                                        <button class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{{temp(calendarView)}} <span class="caret"></span></button>
+                                        <button class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{{toUpper(calendarView)}} <span class="caret"></span></button>
                                         <ul class="dropdown-menu" role="menu">
                                             <li ng-model="calendarView" btn-radio="'year'"><a>Year</a></li>
                                             <li ng-model="calendarView" btn-radio="'month'"><a>Month</a></li>
@@ -65,7 +64,9 @@
                                         <label class="btn cbtn btn-info pull-left" ng-click="calendarControl.prev()"><span class="glyphicon glyphicon-chevron-left"></span></label>
                                     </div>
                                     <div class="col-xs-5">
+                                        <!--
                                         <label class="center-block btn cbtn btn-primary" ng-click="eventNew()"><span class="glyphicon glyphicon-plus"></span></label>
+                                        -->
                                     </div>
                                     <div class="col-xs-3">
                                         <label class="btn cbtn btn-info pull-right" ng-click="calendarControl.next()"><span class="glyphicon glyphicon-chevron-right"></span></label>
@@ -76,7 +77,7 @@
                     </div>
                 </div>
                 <br />
-                <div style="border: 5px double #5cb85c">
+                <div class="calContainer">
                     <mwl-calendar calendar-events="events"
                                   calendar-view="calendarView"
                                   calendar-current-day="calendarDay"
@@ -102,6 +103,9 @@
                     </div>
                     <div class="modal-body">
                         <p>Event: <pre>{{ event | json }}</pre></p>
+                        
+                        <div ng-hide="!event.allDay">All Day Event</div>
+                        <div>{{toUpper(event.type)}} event</div>
                     </div>
                     <div class="modal-footer">
                         <div class="row">
@@ -118,25 +122,60 @@
                 <script type="text/ng-template" id="editEvent.html">
                     <div class="modal-header">
                         <div class="input-group input-group-lg" style="width: 100%;">
-                            <input type="text" class="modal-title form-control text-center" placeholder="Event Title" value="{{event.title}}" ng-model="event.title" />
+                            <input type="text" class="modal-title form-control text-center" placeholder="Event Title" value="{{event.title}}" ng-model="event.title" maxlength="40" />
                         </div>
                     </div>
                     <div class="modal-body">
-                        <p class="input-group" style="max-width: 250px">
-                            <input type="text" class="form-control" readonly datepicker-popup="medium" ng-model="event.starts_at" is-open="event.startOpen" close-text="Close" />
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="toggle($event, 'startOpen', event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                            </span>
-                        </p>
-                        <timepicker ng-model="event.starts_at" hour-step="1" minute-step="15" show-meridian="true"></timepicker>
+                        <div>Event: <pre>{{event | json}}</pre></div>
+                        <div class="checkbox checkbox-danger">
+                            <input type="checkbox" id="allDayCheck" ng-model="event.allDay" ng-click="update()">
+                            <label for="allDayCheck">
+                                All Day
+                            </label>
+                        </div>
+                        <pre>{{event.starts_at | date: 'fullDate'}}</pre>
+                        <div class="row" ng-controller="datepicker">
+                            <div class="col-md-6">
+                                <p class="input-group">
+                                    <input type="text" class="form-control" readonly datepicker-popup="{{format}}" ng-model="event.starts_at" is-open="opened" max-date="event.ends_at" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
 
-                        <p class="input-group" style="max-width: 250px">
-                            <input type="text" class="form-control" readonly datepicker-popup="medium" ng-model="event.ends_at" is-open="event.endOpen" close-text="Close" />
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="toggle($event, 'endOpen', event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                            </span>
-                        </p>
-                        <timepicker ng-model="event.ends_at" hour-step="1" minute-step="15" show-meridian="true"></timepicker>
+                        <div class="row" ng-controller="datepicker">
+                            <div class="col-md-6">
+                                <p class="input-group">
+                                    <input type="text" class="form-control" readonly datepicker-popup="{{format}}" ng-model="event.ends_at" is-open="opened" min-date="event.starts_at" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <p class="input-group" style="max-width: 250px">
+                                    <input type="text" class="form-control" readonly datepicker-popup="medium" ng-model="event.starts_at" is-open="event.startOpen" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="toggle($event, 'startOpen', event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                                <timepicker id="starttimepicker" ng-hide="event.allDay" ng-model="event.starts_at" hour-step="1" minute-step="15" readonly-input="true"></timepicker>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <p class="input-group" style="max-width: 250px">
+                                    <input type="text" class="form-control" readonly datepicker-popup="medium" ng-model="event.ends_at" is-open="event.endOpen" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="toggle($event, 'endOpen', event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                                <timepicker id="endtimepicker" ng-hide="event.allDay" ng-model="event.ends_at" hour-step="1" minute-step="15" readonly-input="true"></timepicker>
+                            </div>
+                        </div>
 
                         <select class="form-control" ng-model="event.type">
                             <option value="important">Important</option>
@@ -170,6 +209,46 @@
                             <label class="btn btn-info col-xs-5 col-sm-4" ng-click="$modalInstance.close()">I Didn't Mean It!!</label>
                             <div class="col-xs-2 hidden-xs"></div>
                             <label class="btn btn-danger col-xs-5 col-sm-4" ng-click="kill(event); $modalInstance.close()">Kill it...</label>
+                        </div>
+                    </div>
+                </script>
+
+                <script type="text/ng-template" id="enumEvents.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title text-center"><i class="glyphicon glyphicon-calendar col" style="color: green"></i> {{date | date:'fullDate'}}</h3>
+                    </div>
+                    <div class="modal-body" style="overflow-y: scroll; max-height: 400px">
+                        <div class="well well-sm" ng-repeat="event in events">
+                            <div class="row">
+                                <section class="col-xs-6">
+                                    <p><h2 class="align-right"><b>{{event.title}}</b></h2></p>
+                                    <p>
+                                        <h5 class="align-right" ng-hide="!event.allDay || !datesEqual(event.starts_at, event.ends_at)">All Day Event</h5>
+                                        <h5 class="align-right" ng-hide="event.allDay && datesEqual(event.starts_at, event.ends_at)">
+                                            Starts <span ng-hide="datesEqual(event.starts_at, event.ends_at)">on <b>{{event.starts_at | date:'shortDate'}}</b> </span><span ng-hide="event.allDay">at <b>{{event.starts_at | date: 'shortTime'}}</b></span>
+                                        </h5>
+                                    </p>
+                                    <p>
+                                        <h5 class="align-right" ng-hide="!event.allDay || !datesEqual(event.starts_at, event.ends_at)">
+                                            <b>{{event.starts_at | date: 'shortDate'}}</b>
+                                        </h5>
+                                        <h5 class="align-right" ng-hide="event.allDay && datesEqual(event.starts_at, event.ends_at)">
+                                            Ends <span ng-hide="datesEqual(event.starts_at, event.ends_at)">on <b>{{event.ends_at | date:'shortDate'}}</b> </span><span ng-hide="event.allDay">at <b>{{event.ends_at | date: 'shortTime'}}</b></span>
+                                        </h5>
+                                    </p>
+                                </section>
+                                <section class="col-xs-6">
+                                    <button class="btn btn-success col-xs-12" ng-click="eventClicked(event); $modalInstance.close();" style="margin-bottom: 5%">View</button>
+                                    <button class="btn btn-warning col-xs-12" ng-click="eventEdited(event); $modalInstance.close();" style="margin-bottom: 5%">Edit</button>
+                                    <button class="btn btn-danger col-xs-12" ng-click="eventDeleted(event); $modalInstance.close();" style="margin-bottom: 5%">Delete</button>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-xs-3"></div>
+                            <label class="btn btn-success col-xs-6" ng-click="$modalInstance.close()">Back</label>
                         </div>
                     </div>
                 </script>
