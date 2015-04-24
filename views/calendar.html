@@ -98,27 +98,28 @@
                 <br /><br /><br />
 
                 <script type="text/ng-template" id="viewEvent.html">
-                    <div class="modal-header">
-                        <h2 class="modal-title text-center"><b>{{event.title}}</b></h2>
+                    <div class="modal-header event-container">
+                        <span class="pull-left event-mark event" style="top: 25px" ng-class="'event-' + event.type"></span><h2 class="modal-title text-center"><b>{{event.title}}</b><span ng-hide="event.icon === 'none'" class="pull-right glyphicon" ng-class="['glyphicon-' + event.icon, 'text-' + event.type]"></span></h2>
                     </div>
                     <div class="modal-body">
                         <div class="well well-sm">
-                            <div class="text-center">
-                                <p>
-                                    <h5 ng-hide="!event.allDay || !datesEqual(event.starts_at, event.ends_at)">All Day Event</h5>
-                                    <h5 ng-hide="event.allDay && datesEqual(event.starts_at, event.ends_at)">
-                                        Starts <span ng-hide="datesEqual(event.starts_at, event.ends_at)">on <b>{{event.starts_at | date:'shortDate'}}</b> </span><span ng-hide="event.allDay">at <b>{{event.starts_at | date: 'shortTime'}}</b></span>
-                                    </h5>
-                                </p>
-                                <p>
-                                    <h5 ng-hide="!event.allDay || !datesEqual(event.starts_at, event.ends_at)">
-                                        <b>{{event.starts_at | date: 'shortDate'}}</b>
-                                    </h5>
-                                    <h5 ng-hide="event.allDay && datesEqual(event.starts_at, event.ends_at)">
-                                        Ends <span ng-hide="datesEqual(event.starts_at, event.ends_at)">on <b>{{event.ends_at | date:'shortDate'}}</b> </span><span ng-hide="event.allDay">at <b>{{event.ends_at | date: 'shortTime'}}</b></span>
-                                    </h5>
-                                </p>
-                            </div>
+                            <p>
+                                <h4 class="text-center">{{event.descript}}</h4>
+                            </p>
+                            <p>
+                                <h5 class="text-center" ng-hide="!event.allDay || !datesEqual(event.starts_at, event.ends_at)">All Day Event</h5>
+                                <h5 class="text-center" ng-hide="event.allDay && datesEqual(event.starts_at, event.ends_at)">
+                                    Starts <span ng-hide="datesEqual(event.starts_at, event.ends_at)">on <b>{{event.starts_at | date:'fullDate'}}</b> </span><span ng-hide="event.allDay">at <b>{{event.starts_at | date: 'shortTime'}}</b></span>
+                                </h5>
+                            </p>
+                            <p>
+                                <h5 class="text-center" ng-hide="!event.allDay || !datesEqual(event.starts_at, event.ends_at)">
+                                    <b>{{event.starts_at | date: 'shortDate'}}</b>
+                                </h5>
+                                <h5 class="text-center" ng-hide="event.allDay && datesEqual(event.starts_at, event.ends_at)">
+                                    Ends <span ng-hide="datesEqual(event.starts_at, event.ends_at)">on <b>{{event.ends_at | date:'fullDate'}}</b> </span><span ng-hide="event.allDay">at <b>{{event.ends_at | date: 'shortTime'}}</b></span>
+                                </h5>
+                            </p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -136,12 +137,16 @@
                 <script type="text/ng-template" id="editEvent.html">
                     <div class="modal-header">
                         <div class="input-group input-group-lg" style="width: 100%;">
-                            <input type="text" class="modal-title form-control text-center" placeholder="Event Title" value="{{event.title}}" ng-model="event.title" maxlength="40" />
+                            <input type="text" class="modal-title form-control text-center" placeholder="Event Title" value="event.title" ng-model="event.title" maxlength="40" />
                         </div>
                     </div>
                     <div class="modal-body">
+                        <div class="input-group" style="width: 100%;">
+                            <textarea rows="4" type="text" class=" form-control" placeholder="Event Description" value="event.descript" ng-model="event.descript" maxlength="200"></textarea>
+                        </div>
+
                         <div class="checkbox checkbox-danger">
-                            <input type="checkbox" id="allDayCheck" ng-model="event.allDay" ng-click="update()">
+                            <input type="checkbox" id="allDayCheck" ng-model="event.allDay" ng-click="update();">
                             <label for="allDayCheck">
                                 All Day
                             </label>
@@ -157,8 +162,8 @@
                                         </span>
                                     </p>
                                 </div>
-                                <div class="col-xs-12">
-                                    <timepicker class="timepicker" id="starttimepicker" ng-hide="event.allDay" ng-model="event.starts_at" hour-step="1" minute-step="15" readonly-input="true"></timepicker>
+                                <div class="col-xs-12" collapse="event.allDay">
+                                    <timepicker class="timepicker" id="starttimepicker" ng-model="event.starts_at" hour-step="1" minute-step="15" readonly-input="true"></timepicker>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-6" ng-controller="datepicker">
@@ -170,20 +175,35 @@
                                         </span>
                                     </p>
                                 </div>
-                                <div class="col-xs-12">
-                                    <timepicker class="timepicker" id="endtimepicker" ng-hide="event.allDay" ng-model="event.ends_at" hour-step="1" minute-step="15" readonly-input="true"></timepicker>
+                                <div class="col-xs-12" collapse="event.allDay">
+                                    <timepicker class="timepicker" id="endtimepicker" ng-model="event.ends_at" hour-step="1" minute-step="15" readonly-input="true"></timepicker>
                                 </div>
                             </div>
                         </div>
 
-                        <select class="form-control" ng-model="event.type">
-                            <option value="important">Important</option>
-                            <option value="warning">Warning</option>
-                            <option value="info">Info</option>
-                            <option value="inverse">Inverse</option>
-                            <option value="success">Success</option>
-                            <option value="special">Special</option>
-                        </select>
+                        <div class="input-group">
+                            <select class="form-control list-element" ng-model="event.type">
+                                <option value="important" class="text-important">Important</option>
+                                <option value="warning" class="text-warning">Warning</option>
+                                <option value="info" class="text-info">Info</option>
+                                <option value="inverse" class="text-inverse">Inverse</option>
+                                <option value="success" class="text-success">Success</option>
+                                <option value="special" class="text-special">Special</option>
+                            </select>
+                            <div class="input-group-btn btn-group dropup">
+                                <button type="button" class="btn btn-default dropdown-toggle" ng-model="event.icon" data-toggle="dropdown" aria-expanded="false">
+                                    <span class="glyphicon" ng-class="['glyphicon-' + event.icon, 'text-' + event.type]"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                    <button class="btn btn-default noicon" btn-radio="'none'" ng-model="event.icon"><b>No Event Icon</b></button><br />
+                                    <button ng-repeat="icon in icons_row1" class="btn btn-default" btn-radio="icon" ng-model="event.icon"><span class="glyphicon" ng-class="['glyphicon-' + icon, 'text-' + event.type]"></span></button><br />
+                                    <button ng-repeat="icon in icons_row2" class="btn btn-default" btn-radio="icon" ng-model="event.icon"><span class="glyphicon" ng-class="['glyphicon-' + icon, 'text-' + event.type]"></span></button><br />
+                                    <button ng-repeat="icon in icons_row3" class="btn btn-default" btn-radio="icon" ng-model="event.icon"><span class="glyphicon" ng-class="['glyphicon-' + icon, 'text-' + event.type]"></span></button><br />
+                                    <button ng-repeat="icon in icons_row4" class="btn btn-default" btn-radio="icon" ng-model="event.icon"><span class="glyphicon" ng-class="['glyphicon-' + icon, 'text-' + event.type]"></span></button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <div class="row">
@@ -214,12 +234,13 @@
 
                 <script type="text/ng-template" id="enumEvents.html">
                     <div class="modal-header">
-                        <h3 class="modal-title text-center"><i class="glyphicon glyphicon-calendar col" style="color: green"></i> {{date | date:'fullDate'}}</h3>
+                        <h2 class="modal-title text-center"><i class="glyphicon glyphicon-calendar pull-left" style="color: green"></i><b>{{date | date:'fullDate'}}</b><span class="label label-success pull-right">{{events.length}}</span></h2>
                     </div>
                     <div class="modal-body" style="overflow-y: scroll; max-height: 400px">
-                        <div class="well well-sm" ng-repeat="event in events">
+                        <div class="well well-sm event-container" ng-repeat="event in events">
                             <div class="row">
                                 <section class="col-xs-6">
+                                    <span class="pull-left event-mark event" ng-class="'event-' + event.type"></span>
                                     <p><h2 class="align-right"><b>{{event.title}}</b></h2></p>
                                     <p>
                                         <h5 class="align-right" ng-hide="!event.allDay || !datesEqual(event.starts_at, event.ends_at)">All Day Event</h5>
@@ -242,6 +263,7 @@
                                     <button class="btn btn-danger col-xs-12" ng-click="eventDeleted(event); $modalInstance.close();" style="margin-bottom: 5%">Delete</button>
                                 </section>
                             </div>
+                            <h2 class="event-sig pull-left" ng-hide="event.icon === 'none'"><span class="glyphicon" ng-class="['glyphicon-' + event.icon, 'text-' + event.type]"></span></h2>
                         </div>
                     </div>
                     <div class="modal-footer">

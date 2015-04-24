@@ -69,6 +69,14 @@ angular
           localStorage.calendarString = str;
       };
 
+      function forLoop(min, ceil, step) {
+          if (!step) step = 1;
+          var ret = [];
+          for (var i = min; i < ceil; i += step)
+              ret.push(i);
+          return ret;
+      }
+
       dayEvents = $scope.enumerateEvents = function (events, date) {
           $modal.open({
               templateUrl: 'enumEvents.html',
@@ -108,6 +116,10 @@ angular
               $modal.open({
                   templateUrl: 'editEvent.html',
                   controller: function ($scope, $modalInstance) {
+                      $scope.icons_row1 = ['exclamation-sign', 'warning-sign', 'ok-sign', 'info-sign', 'remove-sign']; // signs
+                      $scope.icons_row2 = ['list', 'star', 'asterisk', 'check', 'bell']; // general icons
+                      $scope.icons_row3 = ['cog', 'time', 'flash', 'record', 'dashboard']; // more general icons
+                      $scope.icons_row4 = ['road', 'shopping-cart', 'briefcase', 'blackboard', 'piggy-bank']; // locations
                       $scope.$modalInstance = $modalInstance;
                       $scope.action = action;
                       /*
@@ -124,15 +136,15 @@ angular
                       };
 
                       $scope.update = function () {
-                          if (event.allDay) {
+                          if ($scope.event.allDay) {
                               var start = new Date(event.starts_at);
                               start.setHours(12);
                               start.setMinutes(0);
-                              event.starts_at = start;
+                              $scope.event.starts_at = start;
                               var end = new Date(event.starts_at);
                               end.setHours(12);
                               end.setMinutes(0);
-                              event.ends_at = end;
+                              $scope.event.ends_at = end;
                           }
                       };
                   }
@@ -178,7 +190,9 @@ angular
               deletable: true,
               incrementsBadgeTotal: true,
               eventNum: events.length,
-              allDay: false
+              allDay: false,
+              icon: 'none',
+              descript: ''
           };
           showModal('New', event);
       };
@@ -194,6 +208,8 @@ angular
           if (!event.incrementsBadgeTotal) event.incrementsBadgeTotal = true;
           if (!event.eventNum) event.eventNum = index;
           if (!event.allDay) event.allDay = false;
+          if (!event.icon) event.icon = 'none';
+          if (!event.descript) event.descript = '';
       };
 
       $scope.toUpper = function (str, start, end) {
@@ -228,7 +244,9 @@ angular
               deletable: event.deletable,
               incrementsBadgeTotal: event.incrementsBadgeTotal,
               eventNum: event.eventNum,
-              allDay: event.allDay
+              allDay: event.allDay,
+              icon: event.icon,
+              descript: event.descript
           };
           return newEvent;
       };

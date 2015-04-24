@@ -20,6 +20,49 @@
     margin-right: auto;
 }
 
+.event-container {
+    position: relative;
+}
+
+.event-sig {
+    position: absolute;
+    bottom: 0px;
+}
+
+.event-mark {
+    position: absolute;
+    left: 25px;
+    top: 10px;
+}
+
+.text-inverse {
+    color: #696969;
+}
+
+.text-special {
+    color: #660033;
+}
+
+/*
+    text-important is identical to
+    bootstrap's text-danger
+*/
+.text-important {
+    color: #A94442;
+}
+
+.list-element {
+    font-weight: 900;
+}
+
+.noicon {
+    width: 100%;
+}
+
+textarea {
+    resize: none;
+}
+
 /* 
     Custom circular buttons
 */
