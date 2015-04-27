@@ -1,4 +1,17 @@
-﻿.jumbotron {
+﻿.container-fluid {
+    max-width: 100%;
+}
+
+.navbar {
+    width:100%;
+    z-index: 1000;
+}
+
+.navbar-space {
+    height: 52px;
+}
+
+.jumbotron {
     text-align: center;
 }
 
@@ -51,8 +64,8 @@
     color: #A94442;
 }
 
-.list-element {
-    font-weight: 900;
+.list-icon {
+    font-size: x-small;
 }
 
 .noicon {

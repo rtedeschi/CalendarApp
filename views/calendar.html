@@ -1,77 +1,80 @@
 ﻿<div>
-
-    <div class="pull-left">
-        
-    </div>
+    <br />
 
     <div class="container-fluid">
-
+        <div class="visible-xs">
+            <div class="row">
+                <h6 class="col-xs-4 text-right">Calendar View: </h6>
+                <select class="btn btn-success dropdown-toggle text-center col-xs-7" ng-model="calendarView">
+                    <option value="year">Year</option>
+                    <option value="month">Month</option>
+                    <option value="week">Week</option>
+                    <option value="day">Day</option>
+                </select>
+            </div>
+        </div>
         <div class="row" id="calendarApp">
             <div class="col-sm-10 col-sm-offset-1">
                 <div class="row">
-                    <div class="col-xs-4 col-sm-5">
+                    <div class="col-xs-4 col-sm-5 hidden-xs">
                         <div class="panel panel-success">
                             <div class="panel-heading">
                                 <div class="panel-title">Calendar View</div>
                             </div>
                             <div class="panel-body">
-                                <div class="btn-group btn-group-justified hidden-sm hidden-xs">
+                                <div class="btn-group btn-group-justified hidden-sm">
                                     <label class="btn btn-success" ng-model="calendarView" btn-radio="'year'">Year</label>
                                     <label class="btn btn-success" ng-model="calendarView" btn-radio="'month'">Month</label>
                                     <label class="btn btn-success" ng-model="calendarView" btn-radio="'week'">Week</label>
                                     <label class="btn btn-success" ng-model="calendarView" btn-radio="'day'">Day</label>
                                 </div>
-                                <div class="btn-group-vertical visible-sm visible-xs">
-                                    <div class="btn-group">
-                                        <button class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{{toUpper(calendarView)}} <span class="caret"></span></button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li ng-model="calendarView" btn-radio="'year'"><a>Year</a></li>
-                                            <li ng-model="calendarView" btn-radio="'month'"><a>Month</a></li>
-                                            <li ng-model="calendarView" btn-radio="'week'"><a>Week</a></li>
-                                            <li ng-model="calendarView" btn-radio="'day'"><a>Day</a></li>
-                                        </ul>
-                                    </div>
+                                <div class="visible-sm">
+                                    <select class="btn btn-success dropdown-toggle text-center col-xs-12" ng-model="calendarView">
+                                        <option value="year">Year</option>
+                                        <option value="month">Month</option>
+                                        <option value="week">Week</option>
+                                        <option value="day">Day</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-8 col-sm-7">
-                        <div class="row">
+                    <div class="col-xs-12 col-sm-7">
+                        <div class="row hidden-xs">
                             <!-- Not necessary due to new event buttons added to calendar source -->
                             <!--<div class="col-xs-6">
-                                <label class="btn cbtn btn-primary center-block" ng-click="eventNew()"><span class="glyphicon glyphicon-plus"></span></label>
-                            </div>-->
+                        <label class="btn cbtn btn-primary center-block" ng-click="eventNew()"><span class="glyphicon glyphicon-plus"></span></label>
+                    </div>-->
                             <div class="col-xs-2 col-sm-3 col-md-4"></div>
                             <div class="col-xs-7 col-sm-6 col-md-4">
                                 <label class="btn oval btn-warning" ng-click="setCalendarToToday()">Today</label>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="row">
-                                    <div class="col-xs-2 hidden-xs">
-                                        <div class="btn cbtn-lg btn-info pull-left" ng-click="calendarControl.prev()"><span class="glyphicon glyphicon-chevron-left"></span></div>
-                                    </div>
-                                    <h2 class="center-block text-center col-xs-11 col-sm-8">{{ calendarControl.getTitle() }}</h2>
-                                    <div class="col-xs-2 hidden-xs">
-                                        <div class="btn cbtn-lg btn-info pull-right" ng-click="calendarControl.next()"><span class="glyphicon glyphicon-chevron-right"></span></div>
-                                    </div>
+                        <div class="row col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-2 hidden-xs">
+                                    <div class="btn cbtn-lg btn-info pull-left" ng-click="calendarControl.prev()"><span class="glyphicon glyphicon-chevron-left"></span></div>
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    <h2 class="center-block text-center">{{ calendarControl.getTitle() }}</h2>
+                                </div>
+                                <div class="col-xs-2 hidden-xs">
+                                    <div class="btn cbtn-lg btn-info pull-right" ng-click="calendarControl.next()"><span class="glyphicon glyphicon-chevron-right"></span></div>
                                 </div>
                             </div>
-                            <div class="visible-xs clearfix">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <label class="btn cbtn btn-info pull-left" ng-click="calendarControl.prev()"><span class="glyphicon glyphicon-chevron-left"></span></label>
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <!--
-                                        <label class="center-block btn cbtn btn-primary" ng-click="eventNew()"><span class="glyphicon glyphicon-plus"></span></label>
-                                        -->
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <label class="btn cbtn btn-info pull-right" ng-click="calendarControl.next()"><span class="glyphicon glyphicon-chevron-right"></span></label>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="row visible-xs">
+                            <div class="col-xs-3">
+                                <label class="btn cbtn btn-info pull-left" ng-click="calendarControl.prev()"><span class="glyphicon glyphicon-chevron-left"></span></label>
+                            </div>
+                            <div class="col-xs-6">
+                                <!--
+            <label class="center-block btn cbtn btn-primary" ng-click="eventNew()"><span class="glyphicon glyphicon-plus"></span></label>
+            -->
+                                <label class="btn oval btn-warning center-block" ng-click="setCalendarToToday()">Today</label>
+                            </div>
+                            <div class="col-xs-3">
+                                <label class="btn cbtn btn-info pull-right" ng-click="calendarControl.next()"><span class="glyphicon glyphicon-chevron-right"></span></label>
                             </div>
                         </div>
                     </div>
@@ -95,41 +98,64 @@
                               calendar-edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'">
                 </mwl-calendar>
                 </div>
-                <br /><br /><br />
+                <br />
+                <h5 ng-hide="calendarView !== 'year'">Click on a month box to view all events in the month.<br />Click on the month name to view the month in detail.</h5>
+                <h5 ng-hide="calendarView !== 'month'">Click on a day box to view all events on the day, and to add/edit events.<br />Click on an event 'ball' to view the associated event.<br />Click on the day number to view the day in detail.</h5>
+                <h5 ng-hide="calendarView !== 'week'">Click on an event title to view the event.<br />Click on the date in the column header to view the day in detail.</h5>
+                <h5 ng-hide="calendarView !== 'day'">Click on an event title to view the event.</h5>
+                <br /><br />
 
                 <script type="text/ng-template" id="viewEvent.html">
                     <div class="modal-header event-container">
-                        <span class="pull-left event-mark event" style="top: 25px" ng-class="'event-' + event.type"></span><h2 class="modal-title text-center"><b>{{event.title}}</b><span ng-hide="event.icon === 'none'" class="pull-right glyphicon" ng-class="['glyphicon-' + event.icon, 'text-' + event.type]"></span></h2>
+                        <span class="pull-left event-mark event" style="top: 25px" ng-class="'event-' + event.type"></span><h2 class="modal-title text-center" ng-class="'text-' + event.type"><b>{{event.title}}</b><span ng-hide="event.icon === 'none'" class="pull-right glyphicon" ng-class="'glyphicon-' + event.icon"></span></h2>
                     </div>
                     <div class="modal-body">
                         <div class="well well-sm">
-                            <p>
-                                <h4 class="text-center">{{event.descript}}</h4>
-                            </p>
-                            <p>
-                                <h5 class="text-center" ng-hide="!event.allDay || !datesEqual(event.starts_at, event.ends_at)">All Day Event</h5>
-                                <h5 class="text-center" ng-hide="event.allDay && datesEqual(event.starts_at, event.ends_at)">
-                                    Starts <span ng-hide="datesEqual(event.starts_at, event.ends_at)">on <b>{{event.starts_at | date:'fullDate'}}</b> </span><span ng-hide="event.allDay">at <b>{{event.starts_at | date: 'shortTime'}}</b></span>
-                                </h5>
-                            </p>
-                            <p>
-                                <h5 class="text-center" ng-hide="!event.allDay || !datesEqual(event.starts_at, event.ends_at)">
-                                    <b>{{event.starts_at | date: 'shortDate'}}</b>
-                                </h5>
-                                <h5 class="text-center" ng-hide="event.allDay && datesEqual(event.starts_at, event.ends_at)">
-                                    Ends <span ng-hide="datesEqual(event.starts_at, event.ends_at)">on <b>{{event.ends_at | date:'fullDate'}}</b> </span><span ng-hide="event.allDay">at <b>{{event.ends_at | date: 'shortTime'}}</b></span>
-                                </h5>
-                            </p>
+                            <fieldset>
+                                <p>
+                                    <h4 class="text-center">{{event.descript}}</h4>
+                                </p>
+                            </fieldset>
+                            <fieldset>
+                                <p>
+                                    <h5 class="text-center" ng-hide="!event.allDay || !datesEqual(event.starts_at, event.ends_at)">All Day Event</h5>
+                                    <h5 class="text-center" ng-hide="event.allDay && datesEqual(event.starts_at, event.ends_at)">
+                                        Starts <span ng-hide="datesEqual(event.starts_at, event.ends_at)">on <b>{{event.starts_at | date:'fullDate'}}</b> </span><span ng-hide="event.allDay">at <b>{{event.starts_at | date: 'shortTime'}}</b></span>
+                                    </h5>
+                                </p>
+                                <p>
+                                    <h5 class="text-center" ng-hide="!event.allDay || !datesEqual(event.starts_at, event.ends_at)">
+                                        <b>{{event.starts_at | date: 'shortDate'}}</b>
+                                    </h5>
+                                    <h5 class="text-center" ng-hide="event.allDay && datesEqual(event.starts_at, event.ends_at)">
+                                        Ends <span ng-hide="datesEqual(event.starts_at, event.ends_at)">on <b>{{event.ends_at | date:'fullDate'}}</b> </span><span ng-hide="event.allDay">at <b>{{event.ends_at | date: 'shortTime'}}</b></span>
+                                    </h5>
+                                </p>
+                            </fieldset>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <div class="row">
+                        <div class="row hidden-xs">
                             <div class="col-sm-2 hidden-xs"></div>
-                            <label class="btn btn-danger col-sm-2 col-xs-4" ng-click="eventDeleted(event); $modalInstance.close();">Delete</label>
+                            <label class="btn btn-danger col-sm-2 col-xs-4" ng-click="$modalInstance.close(true); eventDeleted(event);">Delete</label>
                             <div class="col-sm-1 hidden-xs"></div>
-                            <label class="btn btn-warning col-sm-2 col-xs-4" ng-click="eventEdited(event); $modalInstance.close();">Edit</label>
+                            <label class="btn btn-warning col-sm-2 col-xs-4" ng-click="$modalInstance.close(true); eventEdited(event);">Edit</label>
                             <div class="col-sm-1 hidden-xs"></div>
-                            <label class="btn btn-success col-sm-2 col-xs-4" ng-click="$modalInstance.close()">Back</label>
+                            <label class="btn btn-success col-sm-2 col-xs-4" ng-click="$modalInstance.close(false)">Back</label>
+                        </div>
+                        <div class="row visible-xs">
+                            <div class="col-xs-1"></div>
+                            <div class="col-xs-7 center-block">
+                                <div class="btn-group btn-group-justified">
+                                    <label class="btn btn-warning" ng-click="$modalInstance.close(true); eventEdited(event);">Edit</label>
+                                    <label class="btn btn-success" ng-click="$modalInstance.close(false)">Back</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-3 pull-right">
+                                <div class="btn-group">
+                                    <label class="btn btn-danger" ng-click="$modalInstance.close(true); eventDeleted(event);">&times;</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </script>
@@ -137,7 +163,7 @@
                 <script type="text/ng-template" id="editEvent.html">
                     <div class="modal-header">
                         <div class="input-group input-group-lg" style="width: 100%;">
-                            <input type="text" class="modal-title form-control text-center" placeholder="Event Title" value="event.title" ng-model="event.title" maxlength="40" />
+                            <input type="text" class="modal-title form-control text-center" placeholder="Event Title" value="event.title" ng-model="event.title" maxlength="25" />
                         </div>
                     </div>
                     <div class="modal-body">
@@ -206,11 +232,20 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <div class="row">
+                        <div class="row hidden-xs">
                             <div class="col-xs-1"></div>
-                            <label class="btn btn-danger col-sm-4 col-xs-5" ng-click="$modalInstance.close()">Cancel</label>
+                            <label class="btn btn-danger col-sm-4 col-xs-5" ng-click="$modalInstance.close();">Cancel</label>
                             <div class="col-xs-2 hidden-xs"></div>
-                            <label class="btn btn-success col-sm-4 col-xs-5" ng-click="updateEvent(event); $modalInstance.close()">Okay</label>
+                            <label class="btn btn-success col-sm-4 col-xs-5" ng-click="$modalInstance.close(); updateEvent(event);">Okay</label>
+                        </div>
+                        <div class="row visible-xs">
+                            <div class="col-xs-1"></div>
+                            <div class="col-xs-10">
+                                <div class="btn-group btn-group-justified">
+                                    <label class="btn btn-danger" ng-click="$modalInstance.close();">Cancel</label>
+                                    <label class="btn btn-success" ng-click="$modalInstance.close(); updateEvent(event);">Okay</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </script>
@@ -223,18 +258,27 @@
                         <h4>Are you sure you want to delete this event? It cannot be undone!</h4>
                     </div>
                     <div class="modal-footer">
-                        <div class="row">
+                        <div class="row hidden-xs">
                             <div class="col-xs-1"></div>
                             <label class="btn btn-info col-xs-5 col-sm-4" ng-click="$modalInstance.close()">I Didn't Mean It!!</label>
                             <div class="col-xs-2 hidden-xs"></div>
-                            <label class="btn btn-danger col-xs-5 col-sm-4" ng-click="kill(event); $modalInstance.close()">Kill it...</label>
+                            <label class="btn btn-danger col-xs-5 col-sm-4" ng-click="$modalInstance.close(); kill(event);">Kill it...</label>
+                        </div>
+                        <div class="row visible-xs">
+                            <div class="col-xs-1"></div>
+                            <div class="col-xs-10">
+                                <div class="btn-group btn-group-justified">
+                                    <label class="btn btn-info" ng-click="$modalInstance.close()">NO!!</label>
+                                    <label class="btn btn-danger" ng-click="$modalInstance.close(); kill(event);">Kill it...</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </script>
 
                 <script type="text/ng-template" id="enumEvents.html">
                     <div class="modal-header">
-                        <h2 class="modal-title text-center"><i class="glyphicon glyphicon-calendar pull-left" style="color: green"></i><b>{{date | date:'fullDate'}}</b><span class="label label-success pull-right">{{events.length}}</span></h2>
+                        <h2 class="modal-title text-center"><i class="glyphicon glyphicon-calendar pull-left" style="color: green"></i><b>{{date | date:'fullDate'}}</b><span class="label label-success pull-right">{{activeCount}}</span></h2>
                     </div>
                     <div class="modal-body" style="overflow-y: scroll; max-height: 400px">
                         <div class="well well-sm event-container" ng-repeat="event in events">
@@ -258,18 +302,29 @@
                                     </p>
                                 </section>
                                 <section class="col-xs-6">
-                                    <button class="btn btn-success col-xs-12" ng-click="eventClicked(event); $modalInstance.close();" style="margin-bottom: 5%">View</button>
-                                    <button class="btn btn-warning col-xs-12" ng-click="eventEdited(event); $modalInstance.close();" style="margin-bottom: 5%">Edit</button>
-                                    <button class="btn btn-danger col-xs-12" ng-click="eventDeleted(event); $modalInstance.close();" style="margin-bottom: 5%">Delete</button>
+                                    <button class="btn btn-success col-xs-12" ng-click="$modalInstance.close(true); eventClicked(event);" style="margin-bottom: 5%">View</button>
+                                    <button class="btn btn-warning col-xs-12" ng-click="$modalInstance.close(true); eventEdited(event);" style="margin-bottom: 5%">Edit</button>
+                                    <button class="btn btn-danger col-xs-12" ng-click="$modalInstance.close(true); eventDeleted(event);" style="margin-bottom: 5%">Delete</button>
                                 </section>
                             </div>
                             <h2 class="event-sig pull-left" ng-hide="event.icon === 'none'"><span class="glyphicon" ng-class="['glyphicon-' + event.icon, 'text-' + event.type]"></span></h2>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <div class="row">
-                            <div class="col-xs-3"></div>
-                            <label class="btn btn-success col-xs-6" ng-click="$modalInstance.close()">Back</label>
+                        <div class="row hidden-xs">
+                            <div class="col-xs-1"></div>
+                            <label class="btn btn-info col-xs-5 col-sm-4" ng-click="newEvent(date); $modalInstance.close(true);">Add Event</label>
+                            <div class="col-xs-2 hidden-xs"></div>
+                            <label class="btn btn-success col-xs-5 col-sm-4" ng-click="$modalInstance.close(false)">Back</label>
+                        </div>
+                        <div class="row visible-xs">
+                            <div class="col-xs-1"></div>
+                            <div class="col-xs-10">
+                                <div class="btn-group btn-group-justified">
+                                    <label class="btn btn-info" ng-click="newEvent(date); $modalInstance.close(true);">Add Event</label>
+                                    <label class="btn btn-success" ng-click="$modalInstance.close(false)">Back</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </script>

@@ -2,6 +2,7 @@
 <html>
 <head>
     <title></title>
+    <link href="css/toastr.css" rel="stylesheet" />
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/bootstrap-theme.min.css" rel="stylesheet" />
     <link href="css/angular-bootstrap-calendar.min.css" rel="stylesheet" />
@@ -11,22 +12,32 @@
 
 </head>
 <body data-ng-app="calendarApp" data-ng-controller="mainController" ng-cloak style="overflow-x:hidden;">
-    <nav class="navbar navbar-inverse" role="navigation">
+    <nav class="navbar navbar-inverse affix" role="navigation">
         <div class="row">
-            <div class="col col-xs-1"></div>
-            <label class="btn btn-default navbar-btn col col-xs-1 col-sm-2" ng-click="routeTo('/home')"><span class="hidden-xs">Home </span><span class="glyphicon glyphicon-home" aria-hidden="true"></span></label>
-            <div class="col col-xs-1 col-sm-1"></div>
-            <a class="navbar-brand col col-xs-6 col-sm-4 text-center" href="#home">Ryan Tedeschi</a>
-            <div class="col col-xs-1 col-sm-1"></div>
-            <label class="btn btn-default navbar-btn col col-xs-1 col-sm-2" ng-click="routeTo('/calendar')"><span class="hidden-xs">Calendar </span><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></label>
-            <div class="col col-xs-1"></div>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-1">
+                <div class="btn-group pull-left">
+                    <label class="btn btn-default navbar-btn" ng-click="routeTo('/home')"><span class="hidden-xs">Home </span><span class="glyphicon glyphicon-home" aria-hidden="true"></span></label>
+                </div>
+            </div>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-6">
+                <a class="navbar-brand center-block text-center" style="width:100%;" href="#home">Ryan Tedeschi</a>
+            </div>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-1">
+                <div class="btn-group pull-right">
+                    <label class="btn btn-default navbar-btn" ng-click="routeTo('/calendar')"><span class="hidden-xs">Calendar </span><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></label>
+                </div>
+            </div>
         </div>
     </nav>
-
+    <nav class="navbar-space"></nav>
     <div ng-view></div>
 
     <script src="js/jquery.min.js"></script>
     <!--<script src="js/jquery-ui.custom.min.js"></script>-->
+    <script src="js/toastr.js"></script>
     <script src="js/moment.min.js"></script>
     <script src="js/angular.min.js"></script>
     <script src="js/angular-route.min.js"></script>

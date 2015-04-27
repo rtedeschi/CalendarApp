@@ -1,15 +1,24 @@
 ﻿'use strict';
 /*
-    newEvent() is called within angular-bootstrap-calendar-tpls.js
+    newEvent() and dayEvents() are called within angular-bootstrap-calendar-tpls.js
 */
 var newEvent = function (date) { }; // instantiated to insure no null function calls
-/*
-    dayEvents() is called within angular-bootstrap-calendar-tpls.js
-*/
 var dayEvents = function (events, date) { };
+var modalOpen = false;
+
+/*
+    Toast!
+*/
+var toast = function (message, title, type) {
+    if (!type) type = 'success';
+    if (!title) title = '';
+    toastr[type](message, title);
+};
+toastr.options.positionClass = 'toast-bottom-right';
+
 angular
   .module('calendarApp', ['mwl.calendar', 'ui.bootstrap', 'ngRoute'])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $compileProvider) {
       $routeProvider.when('/home',
       {
           controller: 'menuController',
@@ -20,10 +29,11 @@ angular
           controller: 'calendarController',
           templateUrl: 'views/calendar.html'
       })
-      .otherwise({ redirectTo: '/home' })
+      .otherwise({ redirectTo: '/home' });
+      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/); // Fix for cordova builds
   })
   .controller('calendarController', function ($scope, $modal, moment) {
-
+      modalOpen = $scope.modalOpen = false;
       var currentYear = moment().year();
       var currentMonth = moment().month();
 
@@ -77,7 +87,10 @@ angular
           return ret;
       }
 
-      dayEvents = $scope.enumerateEvents = function (events, date) {
+      
+
+      dayEvents = $scope.enumerateEvents = function (events, date, activeCount) {
+          modalOpen = true;
           $modal.open({
               templateUrl: 'enumEvents.html',
               controller: function ($scope, $modalInstance) {
@@ -87,20 +100,23 @@ angular
                   $scope.eventEdited = eventEdited;
                   $scope.eventDeleted = eventDeleted;
                   $scope.eventClicked = eventClicked;
+                  $scope.activeCount = activeCount;
                   $scope.datesEqual = function (date1, date2) {
                       return (date1.getYear() === date2.getYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate());
                   };
-                  $scope.time = function (date) {
-                      var ampm = date.getHours() >= 12 ? "pm" : "am";
-                      var hour = date.getHours() - (date.getHours() >= 12 ? 12 : 0);
-                      return hour + ":" + date.getMinutes() + " " + ampm;
-                  };
+                  $scope.newEvent = function (date) {
+                      newEvent(date);
+                  }
               }
-          });
+          }).result.then(
+              function (newModal) { modalOpen = newModal; },
+              function () { modalOpen = false; }
+              );
       };
 
       function showModal(action, event) {
           if (action === 'Clicked') {
+              modalOpen = true;
               $modal.open({
                   templateUrl: 'viewEvent.html',
                   controller: function ($scope, $modalInstance) {
@@ -110,9 +126,13 @@ angular
                       $scope.eventEdited = eventEdited;
                       $scope.eventDeleted = eventDeleted;
                   }
-              });
+              }).result.then(
+                  function (newModal) { modalOpen = newModal; },
+                  function () { modalOpen = false; }
+                  );
           }
           else if (action === 'Edited' || action === 'New') {
+              modalOpen = true;
               $modal.open({
                   templateUrl: 'editEvent.html',
                   controller: function ($scope, $modalInstance) {
@@ -132,23 +152,31 @@ angular
                               events.push(event);
                           else
                               events[event.eventNum] = event;
+                          toast('\'' + event.title + '\' saved successfully!');
                           serializeEvents();
                       };
 
                       $scope.update = function () {
+                          var start = new Date(event.starts_at);
+                          var end = new Date(event.starts_at);
                           if ($scope.event.allDay) {
-                              var start = new Date(event.starts_at);
+                              start.setHours(0);
+                              end.setHours(23);
+                              end.setMinutes(59);
+                          } else {
                               start.setHours(12);
-                              start.setMinutes(0);
-                              $scope.event.starts_at = start;
-                              var end = new Date(event.starts_at);
                               end.setHours(12);
                               end.setMinutes(0);
-                              $scope.event.ends_at = end;
                           }
+                          start.setMinutes(0);
+                          $scope.event.starts_at = start;
+                          $scope.event.ends_at = end;
                       };
                   }
-              });
+              }).result.then(
+                  function () { modalOpen = false; },
+                  function () { modalOpen = false; }
+                  );
           }
           else if (action === 'Deleted') {
               $modal.open({
@@ -161,10 +189,14 @@ angular
                           events.splice(event.eventNum, 1);
                           for (var i = event.eventNum; i < events.length; i++)
                               events[i].eventNum--;
+                          toast('\'' + event.title + '\' deleted successfully!', '', 'warning');
                           serializeEvents();
                       };
                   }
-              });
+              }).result.then(
+                  function () { modalOpen = false; },
+                  function () { modalOpen = false; }
+                  );
           }
       }
 
@@ -212,17 +244,6 @@ angular
           if (!event.descript) event.descript = '';
       };
 
-      $scope.toUpper = function (str, start, end) {
-          if (start === undefined || start > str.length || start < 0)
-              start = 0;
-          if (end === undefined)
-              end = start;
-          else if (end === -1 || end > str.length)
-              end = str.length;
-          var temp = str.substring(0, start) + str.substring(start, end + 1).toUpperCase() + str.substr(end + 1);
-          return temp;
-      };
-
       $scope.setCalendarToToday = function () {
           $scope.calendarDay = new Date();
       };
@@ -259,6 +280,7 @@ angular
       $scope.routeTo = function (path) {
           $location.path(path);
       };
+      $scope.toast = toast;
   })
   .controller('datepicker', function ($scope) {
 

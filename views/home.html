@@ -2,7 +2,15 @@
     <div class="jumbotron">
         <div class="container">
             <h1>Hello</h1>
-            <button class="btn btn-success" ng-click="routeTo('/calendar')" onclick="alert('Just kidding!')">I do absolutely nothing yet... Exciting!</button>
+            <div class="hidden-xs">
+                <label class="btn btn-success" ng-click="toast('Just kidding!','Toast!', 'info'); routeTo('/calendar');">I do absolutely nothing yet... Exciting!</label>
+            </div>
+            <div class="visible-xs">
+                <label class="btn btn-success" ng-click="toast('Just kidding!','Toast!', 'info'); routeTo('/calendar');">I'm useless!</label>
+            </div>
         </div>
+    </div>
+    <div class=" container-fluid">
+
     </div>
 </div>
