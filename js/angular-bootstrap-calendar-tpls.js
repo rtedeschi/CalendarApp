@@ -629,7 +629,7 @@
                         }
                     }
                     $scope.enumEvents = function (rowIndex, cellIndex, day, activeCount) {
-                        if (!modalOpen) {
+                        if (!modalOpen && day.inMonth) {
                             dayEvents(day.events, $scope.view[rowIndex][cellIndex].date.startOf('day').toDate(), activeCount);
                             handler = calendarHelper.toggleEventBreakdown($scope.view, rowIndex, cellIndex);
                         }

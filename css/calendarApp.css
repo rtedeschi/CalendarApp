@@ -7,6 +7,38 @@
     z-index: 1000;
 }
 
+.filterBar {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+.full-width {
+    width:100%;
+}
+
+.affix-bottom {
+    bottom: 0;
+}
+.affix-right {
+    right: 0;
+}
+.affix-top {
+    top: 0;
+}
+.affix-left {
+    left: 0;
+}
+
+.filterButton {
+    height: 40px;
+    text-align: center;
+    line-height: 2;
+}
+
+.datepicker {
+    bottom: 100%;
+}
+
 .navbar-space {
     height: 52px;
 }
@@ -141,6 +173,7 @@ textarea {
 */
 .checkbox {
   padding-left: 20px;
+  margin: 2px 0 2px 0;
 }
 .checkbox label {
   display: inline-block;
@@ -216,6 +249,13 @@ textarea {
 .checkbox-danger input[type="checkbox"]:checked + label::after {
   color: #fff;
 }
+.checkbox-important input[type="checkbox"]:checked + label::before {
+  background-color: #d9534f;
+  border-color: #d9534f;
+}
+.checkbox-important input[type="checkbox"]:checked + label::after {
+  color: #fff;
+}
 .checkbox-info input[type="checkbox"]:checked + label::before {
   background-color: #5bc0de;
   border-color: #5bc0de;
@@ -235,5 +275,19 @@ textarea {
   border-color: #5cb85c;
 }
 .checkbox-success input[type="checkbox"]:checked + label::after {
+  color: #fff;
+}
+.checkbox-inverse input[type="checkbox"]:checked + label::before {
+  background-color: #696969;
+  border-color: #696969;
+}
+.checkbox-inverse input[type="checkbox"]:checked + label::after {
+  color: #fff;
+}
+.checkbox-special input[type="checkbox"]:checked + label::before {
+  background-color: #660033;
+  border-color: #660033;
+}
+.checkbox-special input[type="checkbox"]:checked + label::after {
   color: #fff;
 }

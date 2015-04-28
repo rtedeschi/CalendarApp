@@ -12,20 +12,30 @@
 
 </head>
 <body data-ng-app="calendarApp" data-ng-controller="mainController" ng-cloak style="overflow-x:hidden;">
-    <nav class="navbar navbar-inverse affix" role="navigation">
+    <nav class="navbar navbar-inverse navbar-fixed-top affix" role="navigation">
         <div class="row">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-1">
+            <div class="col-xs-1 visible-xs"></div>
+            <div class="col-xs-1 visible-xs">
                 <div class="btn-group pull-left">
                     <label class="btn btn-default navbar-btn" ng-click="routeTo('/home')"><span class="hidden-xs">Home </span><span class="glyphicon glyphicon-home" aria-hidden="true"></span></label>
                 </div>
             </div>
-            <div class="col-xs-1"></div>
-            <div class="col-xs-6">
-                <a class="navbar-brand center-block text-center" style="width:100%;" href="#home">Ryan Tedeschi</a>
+            <div class="col-xs-1 visible-xs"></div>
+            <div class="col-xs-6 col-sm-4">
+                <a class="navbar-brand text-center visible-xs" style="width:100%;" href="#home">Ryan Tedeschi</a>
+                <a class="navbar-brand text-left hidden-xs" style="width:100%;" href="#home">Ryan Tedeschi</a>
             </div>
-            <div class="col-xs-1"></div>
-            <div class="col-xs-1">
+            <div class="col-sm-4 hidden-xs">
+                <div class="navbar-form btn-group btn-group-justified">
+                    <label class="btn btn-default navbar-btn" ng-click="routeTo('/home')"><span class="hidden-xs">Home </span><span class="glyphicon glyphicon-home" aria-hidden="true"></span></label>
+                    <label class="btn btn-default navbar-btn" ng-click="routeTo('/calendar')"><span class="hidden-xs">Calendar </span><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></label>
+                </div>
+            </div>
+            <div class="col-sm-4 hidden-xs">
+                <a class="navbar-brand text-right hidden-xs" style="width:100%;" href="#calendar">Calendar App</a>
+            </div>
+            <div class="col-xs-1 visible-xs"></div>
+            <div class="col-xs-1 visible-xs">
                 <div class="btn-group pull-right">
                     <label class="btn btn-default navbar-btn" ng-click="routeTo('/calendar')"><span class="hidden-xs">Calendar </span><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></label>
                 </div>
@@ -45,6 +55,7 @@
     <script src="js/angular-bootstrap-calendar-tpls.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/controllers.js"></script>
+    <script src="js/filters.js"></script>
 
     <!-- temporary LiveReload script -->
     <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>

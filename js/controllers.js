@@ -17,7 +17,8 @@ var toast = function (message, title, type) {
 toastr.options.positionClass = 'toast-bottom-right';
 
 angular
-  .module('calendarApp', ['mwl.calendar', 'ui.bootstrap', 'ngRoute'])
+  .module('calendarApp', ['mwl.calendar', 'ui.bootstrap', 'ngRoute', 'filters'])
+
   .config(function ($routeProvider, $compileProvider) {
       $routeProvider.when('/home',
       {
@@ -32,14 +33,21 @@ angular
       .otherwise({ redirectTo: '/home' });
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/); // Fix for cordova builds
   })
-  .controller('calendarController', function ($scope, $modal, moment) {
+
+  .controller('calendarController', function ($scope, $modal, moment, $filter) {
       modalOpen = $scope.modalOpen = false;
+      $scope.eventTypes = ['important', 'warning', 'info', 'success', 'inverse', 'special'];
       var currentYear = moment().year();
       var currentMonth = moment().month();
 
       $scope.calendarView = 'month';
       $scope.calendarDay = new Date();
       var events = $scope.events = [];
+      $scope.filteredEvents = [];
+
+      $scope.filter = function () {
+          $scope.filteredEvents = $filter('filterEvents')(events, $scope.filter);
+      };
 
       parseEvents();
 
@@ -48,6 +56,7 @@ angular
           if (store !== undefined) {
               var badData = false;
               var data = store.split('|');
+              // Decrypt sensitive local data
               var numEvents = data.length;
               var event;
               for (var i = 0; i < numEvents; i++) {
@@ -66,6 +75,7 @@ angular
               if (badData)
                   serializeEvents(); // stores a list of good events if any bad data was caught
           }
+          $scope.filter();
       };
 
       function serializeEvents() {
@@ -76,6 +86,8 @@ angular
               temp = JSON.stringify(events[i]);
               str += temp + (i < numEvents - 1 ? '|' : '');
           }
+          // Encrypt to secure sensitive local data
+          $scope.filter();
           localStorage.calendarString = str;
       };
 
@@ -86,14 +98,13 @@ angular
               ret.push(i);
           return ret;
       }
-
       
-
       dayEvents = $scope.enumerateEvents = function (events, date, activeCount) {
           modalOpen = true;
           $modal.open({
               templateUrl: 'enumEvents.html',
               controller: function ($scope, $modalInstance) {
+                  if (activeCount === undefined) activeCount = events.length;
                   $scope.$modalInstance = $modalInstance;
                   $scope.events = events;
                   $scope.date = date;
@@ -156,6 +167,21 @@ angular
                           serializeEvents();
                       };
 
+                      $scope.startToday = function () {
+                          var today = new Date();
+                          today.setHours(event.starts_at.getHours());
+                          today.setMinutes(event.starts_at.getMinutes());
+                          today.setMilliseconds(0);
+                          event.starts_at = today;
+                      };
+                      $scope.endToday = function () {
+                          var today = new Date();
+                          today.setHours(event.ends_at.getHours());
+                          today.setMinutes(event.ends_at.getMinutes());
+                          today.setMilliseconds(0);
+                          event.ends_at = today;
+                      };
+
                       $scope.update = function () {
                           var start = new Date(event.starts_at);
                           var end = new Date(event.starts_at);
@@ -172,6 +198,7 @@ angular
                           $scope.event.starts_at = start;
                           $scope.event.ends_at = end;
                       };
+                      $scope.update();
                   }
               }).result.then(
                   function () { modalOpen = false; },
@@ -272,16 +299,34 @@ angular
           return newEvent;
       };
 
+      $scope.filterStartToday = function () {
+          var today = new Date();
+          today.setHours(0);
+          today.setMinutes(0);
+          today.setMilliseconds(0);
+          $scope.filter.filterValues.startDate = today;
+      };
+      $scope.filterEndToday = function () {
+          var today = new Date();
+          today.setHours(23);
+          today.setMinutes(59);
+          today.setMilliseconds(0);
+          $scope.filter.filterValues.endDate = today;
+      };
+
   })
+
   .controller('menuController', function ($scope, $modal, moment) {
 
   })
+
   .controller('mainController', function ($scope, $location) {
       $scope.routeTo = function (path) {
           $location.path(path);
       };
       $scope.toast = toast;
   })
+    
   .controller('datepicker', function ($scope) {
 
       $scope.open = function ($event) {
