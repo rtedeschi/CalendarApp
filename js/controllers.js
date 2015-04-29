@@ -44,8 +44,29 @@ angular
       $scope.calendarDay = new Date();
       var events = $scope.events = [];
       $scope.filteredEvents = [];
+      $scope.filter = {};
 
-      $scope.filter = function () {
+      $scope.resetFilter = function () {
+          $scope.filter = {
+              selected: undefined,
+              filterValues: {
+                  title: "",
+                  type: {
+                      important: true,
+                      warning: true,
+                      info: true,
+                      success: true,
+                      inverse: true,
+                      special: true
+                  },
+                  endDate: undefined,
+                  startDate: undefined
+              }
+          };
+      };
+      $scope.resetFilter();
+
+      $scope.eventsFilter = function () {
           $scope.filteredEvents = $filter('filterEvents')(events, $scope.filter);
       };
 
@@ -75,7 +96,7 @@ angular
               if (badData)
                   serializeEvents(); // stores a list of good events if any bad data was caught
           }
-          $scope.filter();
+          $scope.eventsFilter();
       };
 
       function serializeEvents() {
@@ -87,7 +108,7 @@ angular
               str += temp + (i < numEvents - 1 ? '|' : '');
           }
           // Encrypt to secure sensitive local data
-          $scope.filter();
+          $scope.eventsFilter();
           localStorage.calendarString = str;
       };
 

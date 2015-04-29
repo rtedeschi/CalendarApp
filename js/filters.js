@@ -18,18 +18,10 @@ angular.module('filters', [])
     .filter('filterEvents', function () {
         return function (list, filter) {
             var returnList = [];
-            if (!filter) filter = {};
-            if (!filter.selected) filter.selected = {};
-            if (!filter.filterValues) filter.filterValues = {};
-            if (!filter.filterValues.title) filter.filterValues.title = '';
-            if (filter.filterValues.endDate) {
-                filter.filterValues.endDate.setHours(23)
-                filter.filterValues.endDate.setMinutes(59);
-            }
+            filter = filter.filterValues;
+
             for (var i = 0; i < list.length; i++) {
-                if ((!filter.selected.type || filter.filterValues[list[i].type]) &&
-                    (!filter.selected.title || filter.filterValues.title.length === 0 || list[i].title.toLowerCase().indexOf(filter.filterValues.title.toLowerCase()) >= 0) &&
-                    (!filter.selected.date || overlapDates(list[i].starts_at, list[i].ends_at, filter.filterValues.startDate, filter.filterValues.endDate)))
+                if (filter.type[list[i].type] && (filter.title.length === 0 || list[i].title.toLowerCase().indexOf(filter.title.toLowerCase()) >= 0) && overlapDates(list[i].starts_at, list[i].ends_at, filter.startDate, filter.endDate))
                     returnList.push(list[i]);
             }
             return returnList;

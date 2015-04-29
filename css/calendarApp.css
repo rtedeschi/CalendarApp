@@ -71,13 +71,14 @@
 
 .event-sig {
     position: absolute;
-    bottom: 0px;
+    top: 0;
+    right: 15px;
 }
 
 .event-mark {
     position: absolute;
     left: 25px;
-    top: 10px;
+    top: 25px;
 }
 
 .text-inverse {
