@@ -168,6 +168,8 @@ angular
               $modal.open({
                   templateUrl: 'editEvent.html',
                   controller: function ($scope, $modalInstance) {
+                      var startDate = event.starts_at;
+                      var endDate = event.ends_at;
                       $scope.icons_row1 = ['exclamation-sign', 'warning-sign', 'ok-sign', 'info-sign', 'remove-sign']; // signs
                       $scope.icons_row2 = ['list', 'star', 'asterisk', 'check', 'bell']; // general icons
                       $scope.icons_row3 = ['cog', 'time', 'flash', 'record', 'dashboard']; // more general icons
@@ -204,20 +206,21 @@ angular
                       };
 
                       $scope.update = function () {
-                          var start = new Date(event.starts_at);
-                          var end = new Date(event.starts_at);
                           if ($scope.event.allDay) {
-                              start.setHours(0);
-                              end.setHours(23);
-                              end.setMinutes(59);
-                          } else {
+                              startDate = new Date(event.starts_at);
+                              endDate = new Date(event.ends_at);
+                              var start = new Date(event.starts_at);
+                              var end = new Date(event.starts_at);
                               start.setHours(12);
                               end.setHours(12);
                               end.setMinutes(0);
+                              start.setMinutes(0);
+                              $scope.event.starts_at = start;
+                              $scope.event.ends_at = end;
+                          } else {
+                              $scope.event.starts_at = startDate;
+                              $scope.event.ends_at = endDate;
                           }
-                          start.setMinutes(0);
-                          $scope.event.starts_at = start;
-                          $scope.event.ends_at = end;
                       };
                       $scope.update();
                   }

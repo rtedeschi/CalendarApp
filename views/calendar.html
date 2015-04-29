@@ -293,28 +293,35 @@
                             <span class="event-mark event" ng-class="'event-' + event.type"></span>
                             <h2 class="event-sig"><span class="glyphicon" ng-class="['glyphicon-' + event.icon, 'text-' + event.type]"></span></h2>
                             <div class="row">
-                                <div class="col-xs-10 col-xs-offset-1 text-center">
+                                <div class="col-xs-8 col-xs-offset-2 text-center">
                                     <p><h2 class=""><b>{{event.title}}</b></h2></p>
+                                </div>
+                            </div>
+                            <hr class="hr" />
+                            <div class="row">
+                                <div class="col-xs-10 col-xs-offset-1 text-center">
                                     <p>
                                         <h5 class="" ng-show="datesEqual(event.starts_at, event.ends_at)">
                                             <span ng-show="event.allDay">All Day Event: </span><b>{{event.starts_at | date: 'shortDate'}}</b>
                                         </h5>
                                     </p>
                                     <p>
-                                        <h5 class="" ng-show="event.allDay || !datesEqual(event.starts_at, event.ends_at)">
+                                        <h5 class="" ng-show="!datesEqual(event.starts_at, event.ends_at)">
                                             Starts <span ng-show="!datesEqual(event.starts_at, event.ends_at)">on <b>{{event.starts_at | date:'shortDate'}}</b> </span><span ng-show="!event.allDay">at <b>{{event.starts_at | date: 'shortTime'}}</b></span>
                                         </h5>
                                     </p>
                                     <p>
-                                        <h5 class="" ng-show="event.allDay || !datesEqual(event.starts_at, event.ends_at)">
+                                        <h5 class="" ng-show="!datesEqual(event.starts_at, event.ends_at)">
                                             Ends <span ng-show="!datesEqual(event.starts_at, event.ends_at)">on <b>{{event.ends_at | date:'shortDate'}}</b> </span><span ng-show="!event.allDay">at <b>{{event.ends_at | date: 'shortTime'}}</b></span>
                                         </h5>
                                         <h5 class="" ng-show="!event.allDay && datesEqual(event.starts_at, event.ends_at)">
                                             <b>{{event.starts_at | date: 'shortTime'}}</b> - <b>{{event.ends_at | date: 'shortTime'}}</b>
                                         </h5>
                                     </p>
+                                    <p><h3>{{event.descript}}<span class="text-info" ng-show="event.descript.length === 0">* No Description *</span></h3></p>
                                 </div>
                             </div>
+                            <hr class="hr" />
                             <div class="btn-group btn-group-justified">
                                 <label type="button" class="btn btn-success" ng-click="$modalInstance.close(true); eventClicked(event);">View</label>
                                 <label type="button" class="btn btn-warning" ng-click="$modalInstance.close(true); eventEdited(event);">Edit</label>

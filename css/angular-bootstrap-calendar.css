@@ -396,6 +396,7 @@
   text-align: center;
   border: 0px solid;
   padding: 5px 0;
+  border-bottom: 1px solid darkgray /*#e1e1e1*/;
 }
 .cal-row-head [class*="cal-cell"] small {
   font-weight: normal;
@@ -406,6 +407,14 @@
 }
 .cal-month-day {
   height: 100px;
+  cursor: pointer; /*RT*/
+  text-shadow:0 -1px 0 rgba(0,0,0,.2); /*RT*/
+  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.15),0 1px 1px rgba(0,0,0,.075); /*RT*/
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.15),0 1px 1px rgba(0,0,0,.075); /*RT*/
+}
+.cal-month-day:hover { /*RT*/
+  -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,.125); /*RT*/
+  box-shadow: inset 0 3px 5px rgba(0,0,0,.125); /*RT*/
 }
 [class*="cal-cell"]:hover,
 .cell-focus {
@@ -414,7 +423,7 @@
 .cal-year-box [class*="span"],
 .cal-month-box [class*="cal-cell"] {
   min-height: 100px;
-  border-right: 1px solid #e1e1e1;
+  border-right: 1px solid darkgray /*#e1e1e1*/;
   position: relative;
 }
 .cal-year-box [class*="span"] {
@@ -426,7 +435,7 @@
 }
 .cal-year-box .row,
 .cal-month-box .cal-row-fluid {
-  border-bottom: 1px solid #e1e1e1;
+  border-bottom: 1px solid darkgray /*#e1e1e1*/;
   margin-left: 0px;
   margin-right: 0px;
 }
@@ -466,30 +475,41 @@ span[data-cal-date]:hover {
   opacity: 0.1;
   cursor: default;
 }
-.cal-day-today {
-  background-color: #e8fde7;
+.cal-day-outmonth { /*RT*/
+  background-color: lightgray;
+  cursor: default;
+}
+.cal-day-outmonth:hover { /*RT*/
+  background-color: darkgray;
+}
+.cal-day-today { 
+  /*background-color: #e8fde7;*/
+  background-color: lightsteelblue; /*RT*/
 }
 .cal-day-today span[data-cal-date] {
   color: darkgreen;
 }
 .cal-month-box .cal-day-today span[data-cal-date] {
   font-size: 1.9em;
+  font-weight: 700; /*RT*/
+  color: darkslategrey; /*RT*/
 }
 .cal-day-holiday span[data-cal-date] {
   color: #800080;
 }
 .cal-day-weekend span[data-cal-date] {
   color: darkred;
+  font-weight: 700; /*RT*/
 }
 #cal-week-box {
-  border: 1px solid #e1e1e1;
+  border: 1px solid #e1e1e1;*
   border-right: 0px;
   border-radius: 5px 0 0 5px;
   background-color: #fafafa;
   text-align: right;
 }
 .cal-week-box .cal-row-head {
-  border-bottom: 1px solid #e1e1e1;
+  border-bottom: 1px solid darkgray /*#e1e1e1*/;
 }
 .cal-day-tick {
   border: 1px solid #e1e1e1;
